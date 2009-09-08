@@ -25,7 +25,7 @@ MKL_FLAGS = -I/home/snb/intel/mkl/10.2.1.017/include -L/home/snb/intel/mkl/10.2.
 # Accelerate framework on Mac OS X
 ACCELERATE_FLAGS = -framework Accelerate
 
-# GotoBLAS built and optimized for this particular CPU plus the reference C
+# GotoBLAS built and optimized for this particular CPU including the reference 
 # LAPACK implementation linked with it. We assume the headers and libraries are
 # in some paths the compiler searches in automatically.
 GOTOBLAS_FLAGS = -lgoto
@@ -37,7 +37,7 @@ default: $(DEFAULT_TARG)
 
 macosx: acc_single acc_double goto_single goto_double
 
-linux: ref_single ref_double mkl_single mkl_double
+linux: mkl_single mkl_double goto_single goto_double
 
 ref_single:
 	$(CC) $(CFLAGS) $(LDFLAGS) $(REF_BLAS_FLAGS) -o ref_single $(SOURCES) -DUSE_SINGLE -DUSE_REF
