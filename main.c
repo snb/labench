@@ -16,7 +16,7 @@
 int
 main(int argc, char **argv)
 {
-	ext_int n;
+	int n;
 	real_t *a;
 	real_t *b;
 	real_t *c;
@@ -55,7 +55,7 @@ main(int argc, char **argv)
 	 * Eigenvectors will just be stored in a since we don't care about it. 
 	 */
 	start = timing_now();
-	matrix_eig(c, wr, wi, a, n);
+	matrix_eig(c, wr, wi, a, (lpint) n);
 	end = timing_now();
 	timing_print_elapsed(start, end);
 

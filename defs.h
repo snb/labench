@@ -3,21 +3,25 @@
 
 #ifdef USE_ACCELERATE
 #include <Accelerate/Accelerate.h>
-typedef __CLPK_integer ext_int;
+/* 
+ * LAPACK functions from different libraries all seem to have their own way of 
+ * defining what an integer is. This is the type with the Accelerate framework
+ */
+typedef __CLPK_integer lpint;
 #endif
 
-#if defined(USE_GOTO) || defined(USE_REF)
-#include <cblas.h>
-typedef blasint ext_int;
-//#include <clapack.h>
-// XXX fixme
-extern void sgeev_(const char *, const char *, ext_int *, float *, ext_int *, float *, float *,float *, ext_int *, float *, ext_int *, float *, ext_int *, ext_int *);
-extern void dgeev_(const char *, const char *, ext_int *, double *, ext_int *, double *, double *,double *, ext_int *, double *, ext_int *, double *, ext_int *, ext_int *);
+#if defined(USE_GOTO)
+#include <goto/cblas.h>
+#include <goto/f2c.h>
+#include <goto/clapack.h>
+/* With this LAPACK, an integer is the integer type defined in f2c.h */
+typedef integer lpint;
 #endif
 
 #ifdef USE_MKL
 #include <mkl.h>
-typedef MKL_INT ext_int;
+/* And MKL too has its own int type for LAPACK. */
+typedef MKL_INT lpint;
 #endif
 
 /* 

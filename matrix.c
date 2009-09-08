@@ -6,7 +6,7 @@
 #include "defs.h"
 
 void 
-matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, ext_int n)
+matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
 {
 	/* We want the right eigenvectors, but don't care about the left */
 	char jobvl = 'N';
@@ -25,13 +25,13 @@ matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, ext_int n)
 	 */
 	real_t *work;
 	real_t worksize;
-	ext_int lwork = -1;
+	lpint lwork = -1;
 
 	/* 
 	 * Diagnostic info about any problems geev encounters. Should be zero 
 	 * after a successful run 
 	 */
-	ext_int info;
+	lpint info;
 
 	/* 
 	 * Calculate the optimal size of work then allocate an appropriate 
@@ -39,15 +39,15 @@ matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, ext_int n)
 	 */
 	geev(&jobvl, &jobvr, &n, a, &n, wr, wi, vl, &n, vr, &n, &worksize, 
 	    &lwork, &info);
-	assert(info == 0);
-	lwork = (ext_int) worksize;
+	assert((int) info == 0);
+	lwork = (lpint) worksize;
 	work = (real_t *) malloc(sizeof(real_t) * lwork);
 	assert(work != NULL);
 
 	/* Now calculate eigenvalues and eigenvectors */
 	geev(&jobvl, &jobvr, &n, a, &n, wr, wi, vl, &n, vr, &n, work, &lwork, 
 	    &info);
-	assert(info == 0);
+	assert((int) info == 0);
 
 	/* Free up temporary memory */
 	free(work);
@@ -60,7 +60,7 @@ matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, ext_int n)
  */
  // XXX: handle non-square matrices
 void
-matrix_mult(real_t *a, real_t *b, real_t *c, ext_int n)
+matrix_mult(real_t *a, real_t *b, real_t *c, int n)
 {
 	/*
 	 * We don't need to transpose or conjugate our matrices prior to 
@@ -74,7 +74,7 @@ matrix_mult(real_t *a, real_t *b, real_t *c, ext_int n)
 }
 
 void
-matrix_random(real_t *a, ext_int n)
+matrix_random(real_t *a, int n)
 {
 	unsigned int i;
 
