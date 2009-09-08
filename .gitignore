@@ -2,3 +2,7 @@ acc_double
 acc_single
 goto_double
 goto_single
+mkl_double
+mkl_single
+ref_double
+ref_single
