@@ -70,7 +70,7 @@ matrix_mult(real_t *a, real_t *b, real_t *c, ext_int n)
 	real_t alpha = 1.0;
 	real_t beta = 0.0;
 	
-	gemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, a, n, b, n, beta, c, n);
+	gemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, a, n, b, n, beta, c, n);
 }
 
 void
