@@ -7,9 +7,12 @@ typedef __CLPK_integer ext_int;
 #endif
 
 #if defined(USE_GOTO) || defined(USE_REF)
-//#include <f2c.h>
+#include <cblas.h>
+typedef blasint ext_int;
 //#include <clapack.h>
-typedef int ext_int;
+// XXX fixme
+extern void sgeev_(const char *, const char *, ext_int *, float *, ext_int *, float *, float *,float *, ext_int *, float *, ext_int *, float *, ext_int *, ext_int *);
+extern void dgeev_(const char *, const char *, ext_int *, double *, ext_int *, double *, double *,double *, ext_int *, double *, ext_int *, double *, ext_int *, ext_int *);
 #endif
 
 #ifdef USE_MKL
@@ -23,12 +26,12 @@ typedef MKL_INT ext_int;
  */
 #ifdef USE_SINGLE
 typedef float real_t;
-#define gemm sgemm_
+#define gemm cblas_sgemm
 #define geev sgeev_
 
 #elif USE_DOUBLE
 typedef double real_t;
-#define gemm dgemm_
+#define gemm cblas_dgemm
 #define geev dgeev_
 #endif
 

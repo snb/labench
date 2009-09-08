@@ -67,11 +67,10 @@ matrix_mult(real_t *a, real_t *b, real_t *c, ext_int n)
 	 * multiplying, nor will we multiply them by a scalar or add a constant 
 	 * matrix 
 	 */
-	char trans = 'n';
 	real_t alpha = 1.0;
 	real_t beta = 0.0;
 	
-	gemm(&trans, &trans, &n, &n, &n, &alpha, a, &n, b, &n, &beta, c, &n);
+	gemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, a, n, b, n, beta, c, n);
 }
 
 void

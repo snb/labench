@@ -28,7 +28,7 @@ ACCELERATE_FLAGS = -framework Accelerate
 # GotoBLAS built and optimized for this particular CPU plus the reference C
 # LAPACK implementation linked with it. We assume the headers and libraries are
 # in some paths the compiler searches in automatically.
-GOTOBLAS_FLAGS = -lgoto -llapack_goto
+GOTOBLAS_FLAGS = -lgoto
 
 SOURCES = main.c matrix.c timing.c
 HEADERS = matrix.h defs.h timing.h
