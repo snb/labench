@@ -1,0 +1,23 @@
+Stuff to do soon:
+- Move stuff in defs.h to other header files if possible.
+- Write Python layer around matrix_eig() and matrix_mult() so it is possible to
+  replace some C code with Python.
+- Timing of function calls should be done inside of the matrix_eig() and
+  matrix_mult(), and those functions should return a timing_info struct that can
+  be displayed however the caller wants.
+- Tests should be re-done in Python, using the unittest module.
+- Build tests together into a single program instead of compiling several.
+- Simplify set up of what to test: move compiler flags for various libraries
+  into a separate file like make.inc that the user can modify without having to
+  mess with the main Makefile.
+
+More longer term:
+- Add tests for complex number versions of ?gemm and ?geev.
+- Add more functions to test.
+- Test more libraries, like FLAME (http://www.cs.utexas.edu/users/flame/).
+- Do multiple runs of tests and analyse the timing information to get some
+  statistics.
+- Add plotting functionality for timing info, perhaps with matplotlib.
+- Use autoconf or something for automatic detection of what versions of various
+  numerical libraries are available, and automatically test everything we can
+  find.
