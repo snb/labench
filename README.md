@@ -1,8 +1,11 @@
 This is labench, an oh-so-catchy name for linear algebra benchmarking. To build
-the tests, just run make. You will probably have to modify the Makefile to
-choose which libraries you want to test. After compiling, you will end up with a
-number of binaries for testing double and single precision versions of the test
-routines using each of the library versions specified in the Makefile.
+the tests, just run make, or gmake on systems where the make command is not GNU
+make. You will probably have to modify the Makefile to choose which libraries
+you want to test. After compiling, you will end up with a number of binaries for
+testing double and single precision versions of the test routines using each of
+the library versions specified in the Makefile. So far I have tested labench
+only on Mac OS X 10.6 and Ubuntu Linux 9.04. It might work on other systems, but
+no promises.
 
 This project was started because I was interested in comparing the performance
 of different implementations of common linear algebra libraries such as
