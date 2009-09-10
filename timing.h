@@ -17,7 +17,7 @@
  * This is meant to store CPU time since the process started and current wall
  * clock time from a monotonic clock. 
  */
-struct timing_info {
+struct timing_clock {
 	clock_t cpu;
 #ifdef __APPLE__
 	uint64_t wall;
@@ -26,7 +26,18 @@ struct timing_info {
 #endif
 };
 
-inline struct timing_info timing_now();
-void timing_print_elapsed(struct timing_info start, struct timing_info end);
+/* 
+ * Store elapsed wall and CPU time in seconds, as doubles. 
+ * XXX: We do not actually know how accurate these times are, because the
+ * resolution of the clocks varies by system.
+ */
+struct timing_duration {
+	double cpu;
+	double wall;
+};
+
+inline struct timing_clock timing_now();
+struct timing_duration timing_compute_duration(struct timing_clock start, 
+    struct timing_clock end);
 
 #endif
