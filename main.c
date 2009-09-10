@@ -14,6 +14,7 @@
 
 #include "defs.h"
 #include "matrix.h"
+#include "timing.h"
 
 /* 
  * We shall test the level 3 BLAS gemm routine and LAPACK's geev routine by
@@ -24,12 +25,9 @@
 int
 main(int argc, char **argv)
 {
+	struct timing_duration elapsed;
+	real_t *a, *b, *c, *wr, *wi;
 	int n;
-	real_t *a;
-	real_t *b;
-	real_t *c;
-	real_t *wr;
-	real_t *wi;
 
 	/* Get size of matrix n as command line argument */
 	assert(argc == 2);
@@ -52,13 +50,17 @@ main(int argc, char **argv)
 	matrix_random(b, n*n);
 	
 	/* Now do the matrix multiplication test */
-	matrix_mult(a, b, c, n);
+	elapsed = matrix_mult(a, b, c, n);
+	printf("Multiplication CPU time: %.3f wall time: %.3f\n", elapsed.cpu,
+	    elapsed.wall);
 
 	/* 
 	 * And then calculate eigenvectors and eigenvalues of the product.
 	 * Eigenvectors will just be stored in a since we don't care about it. 
 	 */
-	matrix_eig(c, wr, wi, a, (lpint) n);
+	elapsed = matrix_eig(c, wr, wi, a, (lpint) n);
+	printf("Eigenvalue/vector CPU time: %.3f wall time: %.3f\n", 
+	    elapsed.cpu, elapsed.wall);
 
 	/* Free memory */
 	free(a);
