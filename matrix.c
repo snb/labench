@@ -14,52 +14,51 @@
 
 #include "defs.h"
 #include "matrix.h"
+#include "timing.h"
 
 void 
 matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
 {
-	/* We want the right eigenvectors, but don't care about the left */
-	char jobvl = 'N';
-	char jobvr = 'V';
+	struct timing_info start, end;
+	real_t *vl, *work;
+	real_t worksize;
+	lpint lwork, info;
+	char jobvl, jobvr;
+
+	/* We want the right eigenvectors, but don't care about the left. */
+	jobvl = 'N';
+	jobvr = 'V';
 
 	/* 
 	 * vl is the left eigenvectors, which are not calculated so don't need
-	 * memory allocated 
+	 * memory allocated.
 	 */
-	real_t *vl = NULL;
+	vl = NULL;
 
 	/* 
-	 * work is some temporary work space needed by geev, and lwork is its
-	 * size.  geev will calculate the optimal size for work for us if we set
-	 * lwork to -1, then we'll use that value for allocating work's memory 
+	 * geev will calculate the optimal size of work, a temporary array
+	 * needed by geev, if we set lwork to -1. This size is saved in the 12th
+	 * argument, where normally the work array itself would be. So, get the
+	 * optimal work size and then allocate an appropriate amount of memory.
 	 */
-	real_t *work;
-	real_t worksize;
-	lpint lwork = -1;
-
-	/* 
-	 * Diagnostic info about any problems geev encounters. Should be zero 
-	 * after a successful run 
-	 */
-	lpint info;
-
-	/* 
-	 * Calculate the optimal size of work then allocate an appropriate 
-	 * amount of memory 
-	 */
+	lwork = -1;
 	geev(&jobvl, &jobvr, &n, a, &n, wr, wi, vl, &n, vr, &n, &worksize, 
 	    &lwork, &info);
+	/* info should be non-zero only if geev had problems. */
 	assert((int) info == 0);
 	lwork = (lpint) worksize;
-	work = (real_t *) malloc(sizeof(real_t) * lwork);
+	work = malloc(sizeof(real_t) * lwork);
 	assert(work != NULL);
 
-	/* Now calculate eigenvalues and eigenvectors */
+	/* Now calculate eigenvalues and eigenvectors. */
+	start = timing_now();
 	geev(&jobvl, &jobvr, &n, a, &n, wr, wi, vl, &n, vr, &n, work, &lwork, 
 	    &info);
+	end = timing_now();
+	timing_print_elapsed(start, end);
 	assert((int) info == 0);
 
-	/* Free up temporary memory */
+	/* Free up temporary memory. */
 	free(work);
 }
 
@@ -72,15 +71,18 @@ matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
 void
 matrix_mult(real_t *a, real_t *b, real_t *c, int n)
 {
+	struct timing_info start, end;
+	
 	/*
 	 * We don't need to transpose or conjugate our matrices prior to 
 	 * multiplying, nor will we multiply them by a scalar or add a constant 
-	 * matrix 
+	 * matrix.
 	 */
-	real_t alpha = 1.0;
-	real_t beta = 0.0;
-	
-	gemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, a, n, b, n, beta, c, n);
+	start = timing_now();
+	gemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, a, n, b, 
+	    n, 0.0, c, n);
+	end = timing_now();
+	timing_print_elapsed(start, end);
 }
 
 void
