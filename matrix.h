@@ -11,6 +11,7 @@
 #define MATRIX_H
 
 #include "defs.h"
+#include "timing.h"
 
 #ifdef USE_ACCELERATE
 #include <Accelerate/Accelerate.h>
@@ -47,8 +48,9 @@ typedef MKL_INT lpint;
 #define geev dgeev_
 #endif
 
-void matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n);
-void matrix_mult(real_t *a, real_t *b, real_t *c, int n);
+struct timing_duration matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr,
+    lpint n);
+struct timing_duration matrix_mult(real_t *a, real_t *b, real_t *c, int n);
 void matrix_random(real_t *a, int n);
 void matrix_test();
 

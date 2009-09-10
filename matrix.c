@@ -16,10 +16,10 @@
 #include "matrix.h"
 #include "timing.h"
 
-void 
+struct timing_duration
 matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
 {
-	struct timing_info start, end;
+	struct timing_clock start, end;
 	real_t *vl, *work;
 	real_t worksize;
 	lpint lwork, info;
@@ -55,11 +55,12 @@ matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
 	geev(&jobvl, &jobvr, &n, a, &n, wr, wi, vl, &n, vr, &n, work, &lwork, 
 	    &info);
 	end = timing_now();
-	timing_print_elapsed(start, end);
 	assert((int) info == 0);
 
-	/* Free up temporary memory. */
+	/* Free up temporary memory used by LAPACK. */
 	free(work);
+
+	return (timing_compute_duration(start, end));
 }
 
 /* 
@@ -68,10 +69,10 @@ matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
  * order. 
  */
  // XXX: handle non-square matrices
-void
+struct timing_duration
 matrix_mult(real_t *a, real_t *b, real_t *c, int n)
 {
-	struct timing_info start, end;
+	struct timing_clock start, end;
 	
 	/*
 	 * We don't need to transpose or conjugate our matrices prior to 
@@ -82,7 +83,8 @@ matrix_mult(real_t *a, real_t *b, real_t *c, int n)
 	gemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, a, n, b, 
 	    n, 0.0, c, n);
 	end = timing_now();
-	timing_print_elapsed(start, end);
+	
+	return (timing_compute_duration(start, end));
 }
 
 void

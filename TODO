@@ -2,9 +2,6 @@ Stuff to do soon:
 - Move stuff in defs.h to other header files if possible.
 - Write Python layer around matrix_eig() and matrix_mult() so it is possible to
   replace some C code with Python.
-- Timing of function calls should be done inside of the matrix_eig() and
-  matrix_mult(), and those functions should return a timing_info struct that can
-  be displayed however the caller wants.
 - Tests should be re-done in Python, using the unittest module.
 - Build tests together into a single program instead of compiling several.
 - Simplify set up of what to test: move compiler flags for various libraries
