@@ -13,6 +13,7 @@
 #include <time.h>
 
 #include "defs.h"
+#include "matrix.h"
 
 void 
 matrix_eig(real_t *a, real_t *wr, real_t *wi, real_t *vr, lpint n)
