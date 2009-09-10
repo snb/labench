@@ -7,7 +7,6 @@
  * ----------------------------------------------------------------------------
  */
 
-#include <stdio.h>
 #include <time.h>
 
 #ifdef __APPLE__
@@ -44,12 +43,12 @@ timing_now()
  * Compute the differences in CPU and wall time between two timing_clock 
  * structs, in seconds. 
  */
-struct timing_duration;
+struct timing_duration
 timing_compute_duration(struct timing_clock start, struct timing_clock end) 
 {
 	struct timing_duration elapsed;
 	
-	ellapsed.cpu = (double) (end.cpu - start.cpu) / CLOCKS_PER_SEC;
+	elapsed.cpu = (double) (end.cpu - start.cpu) / CLOCKS_PER_SEC;
 
 #ifdef __APPLE__
 	mach_timebase_info_data_t info;
