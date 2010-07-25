@@ -7,6 +7,7 @@ Stuff to do soon:
 - Simplify set up of what to test: move compiler flags for various libraries
   into a separate file like make.inc that the user can modify without having to
   mess with the main Makefile.
+- Rename real_t type because _t types are supposed to be reserved for libc.
 
 More longer term:
 - Add tests for complex number versions of ?gemm and ?geev.
@@ -18,3 +19,4 @@ More longer term:
 - Use autoconf or something for automatic detection of what versions of various
   numerical libraries are available, and automatically test everything we can
   find.
+- Support CUDA and OpenCL
