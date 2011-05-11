@@ -13,9 +13,9 @@
 #include <stdint.h>
 #include <time.h>
 
-/* 
+/*
  * This is meant to store CPU time since the process started and current wall
- * clock time from a monotonic clock. 
+ * clock time from a monotonic clock.
  */
 struct timing_clock {
 	clock_t cpu;
@@ -26,8 +26,8 @@ struct timing_clock {
 #endif
 };
 
-/* 
- * Store elapsed wall and CPU time in seconds, as doubles. 
+/*
+ * Store elapsed wall and CPU time in seconds, as doubles.
  * XXX: We do not actually know how accurate these times are, because the
  * resolution of the clocks varies by system.
  */
@@ -37,7 +37,7 @@ struct timing_duration {
 };
 
 inline struct timing_clock timing_now();
-struct timing_duration timing_compute_duration(struct timing_clock start, 
+struct timing_duration timing_compute_duration(struct timing_clock start,
     struct timing_clock end);
 
 #endif

@@ -15,14 +15,14 @@
 
 #include "timing.h"
 
-/* 
- * Monotonic timing stuff for Mac OS X was helped greatly by 
+/*
+ * Monotonic timing stuff for Mac OS X was helped greatly by
  * http://www.wand.net.nz/~smr26/wordpress/2009/01/19/monotonic-time-in-mac-os-x
  */
 
-/* 
- * Get current wall time with a monotonic clock and CPU time since the program 
- * started. 
+/*
+ * Get current wall time with a monotonic clock and CPU time since the program
+ * started.
  */
 inline struct timing_clock
 timing_now()
@@ -39,15 +39,15 @@ timing_now()
 	return (info);
 }
 
-/* 
- * Compute the differences in CPU and wall time between two timing_clock 
- * structs, in seconds. 
+/*
+ * Compute the differences in CPU and wall time between two timing_clock
+ * structs, in seconds.
  */
 struct timing_duration
-timing_compute_duration(struct timing_clock start, struct timing_clock end) 
+timing_compute_duration(struct timing_clock start, struct timing_clock end)
 {
 	struct timing_duration elapsed;
-	
+
 	elapsed.cpu = (double) (end.cpu - start.cpu) / CLOCKS_PER_SEC;
 
 #ifdef __APPLE__
@@ -55,7 +55,7 @@ timing_compute_duration(struct timing_clock start, struct timing_clock end)
 	mach_timebase_info(&info);
 	elapsed.wall = 1e-9 * (end.wall - start.wall) * info.numer / info.denom;
 #else
-	elapsed.wall = end.wall.tv_sec - start.wall.tv_sec + 1e-9 * 
+	elapsed.wall = end.wall.tv_sec - start.wall.tv_sec + 1e-9 *
 	    (end.wall.tv_nsec - start.wall.tv_nsec);
 #endif
 	return (elapsed);
